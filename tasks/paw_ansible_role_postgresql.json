@@ -1,0 +1,132 @@
+{
+  "puppet_task_version": 1,
+  "supports_noop": false,
+  "description": "Execute the entire Ansible role imperatively",
+  "input_method": "environment",
+  "parameters": {
+    "postgresql_data_dir": {
+      "description": "",
+      "type": "Optional[String]"
+    },
+    "postgresql_bin_path": {
+      "description": "",
+      "type": "Optional[String]"
+    },
+    "postgresql_enablerepo": {
+      "description": "RHEL/CentOS only. Set a repository to use for PostgreSQL installation.",
+      "type": "Optional[String]"
+    },
+    "postgresql_restarted_state": {
+      "description": "`restarted` or `reloaded`",
+      "type": "Optional[String]"
+    },
+    "postgresql_python_library": {
+      "description": "Ansible role variable (default: python-psycopg2)",
+      "type": "Optional[String]"
+    },
+    "postgresql_user": {
+      "description": "Ansible role variable (default: postgres)",
+      "type": "Optional[String]"
+    },
+    "postgresql_group": {
+      "description": "Ansible role variable (default: postgres)",
+      "type": "Optional[String]"
+    },
+    "postgresql_auth_method": {
+      "description": "`md5` or `scram-sha-256` (https://www.postgresql.org/docs/10/auth-methods.html)",
+      "type": "Optional[String]"
+    },
+    "postgresql_unix_socket_directories": {
+      "description": "Ansible role variable (default: [\"/var/run/postgresql\"])",
+      "type": "Optional[Array]"
+    },
+    "postgresql_service_state": {
+      "description": "Ansible role variable (default: started)",
+      "type": "Optional[String]"
+    },
+    "postgresql_service_enabled": {
+      "description": "Ansible role variable (default: true)",
+      "type": "Optional[Boolean]"
+    },
+    "postgresql_global_config_options": {
+      "description": "Global configuration options that will be set in postgresql.conf.",
+      "type": "Optional[Array]"
+    },
+    "postgresql_hba_entries": {
+      "description": "variable's defaults reflect the defaults that come with a fresh installation.",
+      "type": "Optional[Array]"
+    },
+    "postgresql_locales": {
+      "description": "Debian only. Used to generate the locales used by PostgreSQL databases.",
+      "type": "Optional[Array]"
+    },
+    "postgresql_databases": {
+      "description": "Databases to ensure exist.",
+      "type": "Optional[Array]"
+    },
+    "postgresql_users": {
+      "description": "Users to ensure exist.",
+      "type": "Optional[Array]"
+    },
+    "postgresql_privs": {
+      "description": "see https://docs.ansible.com/ansible/latest/collections/community/postgresql/postgresql_privs_module.html#ansible-collections-community-postgresql-postgresql-privs-module",
+      "type": "Optional[Array]"
+    },
+    "postgres_users_no_log": {
+      "description": "Whether to output user data when managing users.",
+      "type": "Optional[Boolean]"
+    },
+    "par_tags": {
+      "description": "An array of Ansible tags to execute (optional)",
+      "type": "Optional[Array[String]]"
+    },
+    "par_skip_tags": {
+      "description": "An array of Ansible tags to skip (optional)",
+      "type": "Optional[Array[String]]"
+    },
+    "par_start_at_task": {
+      "description": "The name of the task to start execution at (optional)",
+      "type": "Optional[String]"
+    },
+    "par_limit": {
+      "description": "Limit playbook execution to specific hosts (optional)",
+      "type": "Optional[String]"
+    },
+    "par_verbose": {
+      "description": "Enable verbose output from Ansible (optional)",
+      "type": "Optional[Boolean]"
+    },
+    "par_check_mode": {
+      "description": "Run Ansible in check mode (dry-run) (optional)",
+      "type": "Optional[Boolean]"
+    },
+    "par_timeout": {
+      "description": "Timeout in seconds for playbook execution (optional)",
+      "type": "Optional[Integer]"
+    },
+    "par_user": {
+      "description": "Remote user to use for Ansible connections (optional)",
+      "type": "Optional[String]"
+    },
+    "par_env_vars": {
+      "description": "Additional environment variables for ansible-playbook execution (optional)",
+      "type": "Optional[Hash]"
+    }
+  },
+  "implementations": [
+    {
+      "name": "paw_ansible_role_postgresql.sh",
+      "requirements": [
+        "shell"
+      ],
+      "input_method": "environment"
+    },
+    {
+      "name": "paw_ansible_role_postgresql.ps1",
+      "requirements": [
+        "powershell"
+      ],
+      "input_method": "environment"
+    }
+  ]
+}

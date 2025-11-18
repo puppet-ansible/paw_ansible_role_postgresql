@@ -1,0 +1,42 @@
+---
+paw_ansible_role_postgresql::postgresql_enablerepo: ''
+paw_ansible_role_postgresql::postgresql_restarted_state: restarted
+paw_ansible_role_postgresql::postgresql_python_library: python-psycopg2
+paw_ansible_role_postgresql::postgresql_user: postgres
+paw_ansible_role_postgresql::postgresql_group: postgres
+paw_ansible_role_postgresql::postgresql_auth_method: "{{ ansible_fips  | ternary('scram-sha-256',
+  'md5') }}"
+paw_ansible_role_postgresql::postgresql_unix_socket_directories:
+- "/var/run/postgresql"
+paw_ansible_role_postgresql::postgresql_service_state: started
+paw_ansible_role_postgresql::postgresql_service_enabled: true
+paw_ansible_role_postgresql::postgresql_global_config_options:
+- option: unix_socket_directories
+  value: '{{ postgresql_unix_socket_directories | join(",") }}'
+- option: log_directory
+  value: log
+paw_ansible_role_postgresql::postgresql_hba_entries:
+- type: local
+  database: all
+  user: postgres
+  auth_method: peer
+- type: local
+  database: all
+  user: all
+  auth_method: peer
+- type: host
+  database: all
+  user: all
+  address: 127.0.0.1/32
+  auth_method: "{{ postgresql_auth_method }}"
+- type: host
+  database: all
+  user: all
+  address: "::1/128"
+  auth_method: "{{ postgresql_auth_method }}"
+paw_ansible_role_postgresql::postgresql_locales:
+- en_US.UTF-8
+paw_ansible_role_postgresql::postgresql_databases: []
+paw_ansible_role_postgresql::postgresql_users: []
+paw_ansible_role_postgresql::postgresql_privs: []
+paw_ansible_role_postgresql::postgres_users_no_log: true
