@@ -43,8 +43,8 @@ class paw_ansible_role_postgresql (
   Array $postgresql_unix_socket_directories = ['/var/run/postgresql'],
   String $postgresql_service_state = 'started',
   Boolean $postgresql_service_enabled = true,
-  Array $postgresql_global_config_options = [{'option' => 'unix_socket_directories', 'value' => '{{ postgresql_unix_socket_directories | join(",") }}'}, {'option' => 'log_directory', 'value' => 'log'}],
-  Array $postgresql_hba_entries = [{'type' => 'local', 'database' => 'all', 'user' => 'postgres', 'auth_method' => 'peer'}, {'type' => 'local', 'database' => 'all', 'user' => 'all', 'auth_method' => 'peer'}, {'type' => 'host', 'database' => 'all', 'user' => 'all', 'address' => '127.0.0.1/32', 'auth_method' => '{{ postgresql_auth_method }}'}, {'type' => 'host', 'database' => 'all', 'user' => 'all', 'address' => '::1/128', 'auth_method' => '{{ postgresql_auth_method }}'}],
+  Array $postgresql_global_config_options = [{ 'option' => 'unix_socket_directories', 'value' => '{{ postgresql_unix_socket_directories | join(",") }}' }, { 'option' => 'log_directory', 'value' => 'log' }],
+  Array $postgresql_hba_entries = [{ 'type' => 'local', 'database' => 'all', 'user' => 'postgres', 'auth_method' => 'peer' }, { 'type' => 'local', 'database' => 'all', 'user' => 'all', 'auth_method' => 'peer' }, { 'type' => 'host', 'database' => 'all', 'user' => 'all', 'address' => '127.0.0.1/32', 'auth_method' => '{{ postgresql_auth_method }}' }, { 'type' => 'host', 'database' => 'all', 'user' => 'all', 'address' => '::1/128', 'auth_method' => '{{ postgresql_auth_method }}' }],
   Array $postgresql_locales = ['en_US.UTF-8'],
   Array $postgresql_databases = [],
   Array $postgresql_users = [],
@@ -66,45 +66,45 @@ class paw_ansible_role_postgresql (
 # Execute the Ansible role using PAR (Puppet Ansible Runner)
 # Playbook synced via pluginsync to agent's cache directory
 # Check for common paw::par_vardir setting, then module-specific, then default
-$_par_vardir = $par_vardir ? {
-  undef   => lookup('paw::par_vardir', Stdlib::Absolutepath, 'first', '/opt/puppetlabs/puppet/cache'),
-  default => $par_vardir,
-}
-$playbook_path = "${_par_vardir}/lib/puppet_x/ansible_modules/ansible_role_postgresql/playbook.yml"
+  $_par_vardir = $par_vardir ? {
+    undef   => lookup('paw::par_vardir', Stdlib::Absolutepath, 'first', '/opt/puppetlabs/puppet/cache'),
+    default => $par_vardir,
+  }
+  $playbook_path = "${_par_vardir}/lib/puppet_x/ansible_modules/ansible_role_postgresql/playbook.yml"
 
-par { 'paw_ansible_role_postgresql-main':
-  ensure        => present,
-  playbook      => $playbook_path,
-  playbook_vars => {
-        'postgresql_data_dir' => $postgresql_data_dir,
-        'postgresql_bin_path' => $postgresql_bin_path,
-        'postgresql_enablerepo' => $postgresql_enablerepo,
-        'postgresql_restarted_state' => $postgresql_restarted_state,
-        'postgresql_python_library' => $postgresql_python_library,
-        'postgresql_user' => $postgresql_user,
-        'postgresql_group' => $postgresql_group,
-        'postgresql_auth_method' => $postgresql_auth_method,
-        'postgresql_unix_socket_directories' => $postgresql_unix_socket_directories,
-        'postgresql_service_state' => $postgresql_service_state,
-        'postgresql_service_enabled' => $postgresql_service_enabled,
-        'postgresql_global_config_options' => $postgresql_global_config_options,
-        'postgresql_hba_entries' => $postgresql_hba_entries,
-        'postgresql_locales' => $postgresql_locales,
-        'postgresql_databases' => $postgresql_databases,
-        'postgresql_users' => $postgresql_users,
-        'postgresql_privs' => $postgresql_privs,
-        'postgres_users_no_log' => $postgres_users_no_log
-              },
-  tags          => $par_tags,
-  skip_tags     => $par_skip_tags,
-  start_at_task => $par_start_at_task,
-  limit         => $par_limit,
-  verbose       => $par_verbose,
-  check_mode    => $par_check_mode,
-  timeout       => $par_timeout,
-  user          => $par_user,
-  env_vars      => $par_env_vars,
-  logoutput     => $par_logoutput,
-  exclusive     => $par_exclusive,
-}
+  par { 'paw_ansible_role_postgresql-main':
+    ensure        => present,
+    playbook      => $playbook_path,
+    playbook_vars => {
+      'postgresql_data_dir'                => $postgresql_data_dir,
+      'postgresql_bin_path'                => $postgresql_bin_path,
+      'postgresql_enablerepo'              => $postgresql_enablerepo,
+      'postgresql_restarted_state'         => $postgresql_restarted_state,
+      'postgresql_python_library'          => $postgresql_python_library,
+      'postgresql_user'                    => $postgresql_user,
+      'postgresql_group'                   => $postgresql_group,
+      'postgresql_auth_method'             => $postgresql_auth_method,
+      'postgresql_unix_socket_directories' => $postgresql_unix_socket_directories,
+      'postgresql_service_state'           => $postgresql_service_state,
+      'postgresql_service_enabled'         => $postgresql_service_enabled,
+      'postgresql_global_config_options'   => $postgresql_global_config_options,
+      'postgresql_hba_entries'             => $postgresql_hba_entries,
+      'postgresql_locales'                 => $postgresql_locales,
+      'postgresql_databases'               => $postgresql_databases,
+      'postgresql_users'                   => $postgresql_users,
+      'postgresql_privs'                   => $postgresql_privs,
+      'postgres_users_no_log'              => $postgres_users_no_log,
+    },
+    tags          => $par_tags,
+    skip_tags     => $par_skip_tags,
+    start_at_task => $par_start_at_task,
+    limit         => $par_limit,
+    verbose       => $par_verbose,
+    check_mode    => $par_check_mode,
+    timeout       => $par_timeout,
+    user          => $par_user,
+    env_vars      => $par_env_vars,
+    logoutput     => $par_logoutput,
+    exclusive     => $par_exclusive,
+  }
 }
